@@ -1,0 +1,18 @@
+-- Apply after creating at least one authenticated user. Replace the UUID below with auth.users.id.
+-- This seed is intentionally separate from production application logic.
+
+-- insert into public.workspaces (id, name, owner_id)
+-- values ('00000000-0000-0000-0000-000000000001', 'TeamFlow Demo Workspace', 'YOUR_AUTH_USER_ID');
+--
+-- insert into public.workspace_members (workspace_id, user_id, role)
+-- values ('00000000-0000-0000-0000-000000000001', 'YOUR_AUTH_USER_ID', 'owner');
+--
+-- insert into public.projects (workspace_id, name, description, status, created_by, target_date)
+-- values (
+--   '00000000-0000-0000-0000-000000000001',
+--   'Client Portal',
+--   'A practical project for reviewing milestones, tasks, and release readiness.',
+--   'active',
+--   'YOUR_AUTH_USER_ID',
+--   current_date + interval '21 days'
+-- );

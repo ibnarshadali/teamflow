@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TeamFlow
 
-## Getting Started
+TeamFlow is a professional project-management SaaS app for small software teams. Version 1 focuses on a calm daily dashboard, project tracking, Kanban-style task management, comments, workspace members, profile settings, and owner-only workspace settings.
 
-First, run the development server:
+## Features
+
+- Supabase email/password authentication routes: `/login`, `/register`, `/forgot-password`
+- Protected app routes: `/dashboard`, `/projects`, `/projects/new`, `/projects/[projectId]`, `/tasks`, `/team`, `/profile`, `/settings`
+- Responsive application shell with collapsible sidebar, mobile nav, profile area, logout, and light/dark mode
+- Project search, status filter, create/edit/delete flows, cards, and detail tabs
+- Task create/edit/delete flows, status changes, priority, due date, assignee, details dialog, and comments
+- Dashboard sections for my tasks, overdue tasks, due today, activity, active projects, deadlines, and quick actions
+- Team and workspace settings views with owner/member role handling
+- Demo data fallback when Supabase env vars are missing
+
+## Stack
+
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- shadcn-style UI primitives
+- Supabase Auth and Postgres
+- Vercel-compatible configuration
+
+## Local Setup
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+Without Supabase env vars, TeamFlow runs in demo mode so the interface can be reviewed without secrets.
+
+## Environment Variables
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+Only the anon key is used in browser code. Do not commit service role keys.
+
+## Supabase Setup
+
+1. Create a Supabase project.
+2. Copy `.env.example` to `.env.local`.
+3. Add your project URL and anon key.
+4. Run `supabase/schema.sql` in the Supabase SQL editor.
+5. Register a user through `/register`.
+6. Create a workspace/member row manually or adapt `supabase/seed.sql` for your user id.
+
+## Database Migration
+
+The schema lives in `supabase/schema.sql`. It creates profiles, workspaces, members, projects, project members, tasks, comments, activities, indexes, enums, RLS policies, and a trigger for profile creation.
+
+## Commands
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run typecheck
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deploy to Vercel and configure the Supabase environment variables in the Vercel project settings. Apply the database schema before testing protected routes in production.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Screenshots
 
-## Learn More
+Screenshots should be added after visual QA across desktop, tablet, and mobile.
 
-To learn more about Next.js, take a look at the following resources:
+## Known Limitations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- In demo mode, CRUD changes are local to the browser session.
+- Workspace creation onboarding is represented by an empty workspace state when no membership exists; a dedicated persistent onboarding action is still needed.
+- Email invitations are documented as local-only unless Supabase email delivery is configured.
+- Drag-and-drop is intentionally deferred; status changes use accessible controls.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Roadmap
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Persistent server actions for every CRUD mutation
+- Dedicated workspace onboarding flow after first registration
+- Invitation acceptance flow
+- Route-backed task details modal
+- Automated component and data-access tests
